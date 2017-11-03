@@ -13,10 +13,12 @@ namespace KeyVaultBinding.ExampleFunctionApp
         public static Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Function, "GET")] HttpRequestMessage req,
             [KeyVault(SecretName = "StorageConnectionString")] string storageConnectionString,
+            [Blob("test/test.txt", Connection = "{storageConnectionString}")] string test,
             TraceWriter log)
         {
-            log.Info("temp");
-            return Task.FromResult(req.CreateResponse(HttpStatusCode.OK, "temp"));
+            log.Info(storageConnectionString);
+            log.Info(test);
+            return Task.FromResult(req.CreateResponse(HttpStatusCode.OK, $"{storageConnectionString}\r\n{test}"));
         }
     }
 }
