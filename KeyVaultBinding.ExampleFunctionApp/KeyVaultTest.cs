@@ -10,15 +10,16 @@ namespace KeyVaultBinding.ExampleFunctionApp
     public static class KeyVaultTest
     {
         [FunctionName("KeyVaultTest")]
-        public static Task<HttpResponseMessage> Run(
+        public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Function, "GET")] HttpRequestMessage req,
             [KeyVault(SecretName = "StorageConnectionString")] string storageConnectionString,
-            [Blob("test/test.txt", Connection = "{storageConnectionString}")] string test,
+            Binder binder,
             TraceWriter log)
         {
             log.Info(storageConnectionString);
-            log.Info(test);
-            return Task.FromResult(req.CreateResponse(HttpStatusCode.OK, $"{storageConnectionString}\r\n{test}"));
+            var content = await binder.BindAsync<string>(new BlobAttribute("test/test.txt") {Connection = storageConnectionString});
+            log.Info(content);
+            return req.CreateResponse(HttpStatusCode.OK, $"{storageConnectionString}\r\n{content}");
         }
     }
 }
