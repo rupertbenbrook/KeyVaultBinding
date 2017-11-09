@@ -6,8 +6,9 @@ namespace KeyVaultBinding.Config
     {
         public void Initialize(ExtensionConfigContext context)
         {
+            var factory = new KeyVaultProviderFactory();
             context.AddBindingRule<KeyVaultAttribute>()
-                .BindToInput(new KeyVaultSecretStringAsyncConverter());
+                .BindToInput(new KeyVaultSecretStringAsyncConverter(factory));
         }
     }
 }
