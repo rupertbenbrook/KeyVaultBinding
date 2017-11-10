@@ -45,7 +45,7 @@
     <Compile Include="Config\KeyVaultProvider.cs" />
     <Compile Include="Config\KeyVaultProviderFactory.cs" />
     <Compile Include="Config\KeyVaultSecretStringAsyncConverter.cs" />
-    <Compile Include="Config\TokenCache.cs" />
+    <Compile Include="Config\AccessTokenCache.cs" />
     <Compile Include="KeyVaultAttribute.cs" />
     <Compile Include="KeyVaultEncryptorAttribute.cs" />
     <Compile Include="KeyVaultSecretAttribute.cs" />

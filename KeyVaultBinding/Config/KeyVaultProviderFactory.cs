@@ -15,9 +15,9 @@ namespace KeyVaultBinding.Config
                     new KeyVaultClient.AuthenticationCallback(new AzureServiceTokenProvider().KeyVaultTokenCallback));
             }
             return new KeyVaultProvider(keyVaultAttribute.BaseUrl,
-                new TokenCache(new ClientCredential(
+                new AccessTokenCache(new ClientCredential(
                     keyVaultAttribute.ClientId,
-                    keyVaultAttribute.ClientSecret)).GetToken);
+                    keyVaultAttribute.ClientSecret)).GetTokenAsync);
         }
     }
 }
