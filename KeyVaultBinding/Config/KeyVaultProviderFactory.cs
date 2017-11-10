@@ -8,6 +8,7 @@ namespace KeyVaultBinding.Config
     {
         public IKeyVaultProvider GetKeyVaultProvider(KeyVaultAttribute keyVaultAttribute)
         {
+            // TODO: Also need to support certificate login with client Id
             if (keyVaultAttribute.ClientId == null)
             {
                 return new KeyVaultProvider(keyVaultAttribute.BaseUrl,

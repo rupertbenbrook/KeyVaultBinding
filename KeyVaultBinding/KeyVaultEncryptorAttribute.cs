@@ -8,21 +8,18 @@ namespace KeyVaultBinding
     [Binding]
     public class KeyVaultEncryptorAttribute : KeyVaultAttribute
     {
-        public const string DefaultAlgorithm = "RSA-OAEP";
-
         public KeyVaultEncryptorAttribute(string keyName)
         {
             KeyName = keyName;
-            Algorithm = DefaultAlgorithm;
         }
 
         [AutoResolve]
         public string KeyName { get; set; }
 
-        [AutoResolve]
+        [AutoResolve(Default = "")]
         public string KeyVersion { get; set; }
 
-        [AutoResolve]
+        [AutoResolve(Default = "RSA-OAEP")]
         public string Algorithm { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace KeyVaultBinding
         [AutoResolve]
         public string SecretName { get; set; }
 
-        [AutoResolve]
+        [AutoResolve(Default = "")]
         public string SecretVersion { get; set; }
     }
 }
