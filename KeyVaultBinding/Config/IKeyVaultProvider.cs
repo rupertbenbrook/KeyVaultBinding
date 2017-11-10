@@ -5,6 +5,12 @@ namespace KeyVaultBinding.Config
 {
     public interface IKeyVaultProvider
     {
-        Task<string> GetSecret(CancellationToken cancellationToken);
+        Task<string> GetSecret(string name, string version, CancellationToken cancellationToken);
+
+        Task<byte[]> Encrypt(string keyName, string keyVersion, string algorithm,
+            byte[] value, CancellationToken cancellationToken);
+
+        Task<byte[]> Decrypt(string keyName, string keyVersion, string algorithm,
+            byte[] value, CancellationToken cancellationToken);
     }
 }

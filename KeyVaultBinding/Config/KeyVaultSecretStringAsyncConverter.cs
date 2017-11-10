@@ -4,7 +4,7 @@ using Microsoft.Azure.WebJobs;
 
 namespace KeyVaultBinding.Config
 {
-    public class KeyVaultSecretStringAsyncConverter : IAsyncConverter<KeyVaultAttribute, string>
+    public class KeyVaultSecretStringAsyncConverter : IAsyncConverter<KeyVaultSecretAttribute, string>
     {
         private readonly IKeyVaultProviderFactory _keyVaultProviderFactory;
 
@@ -13,10 +13,10 @@ namespace KeyVaultBinding.Config
             _keyVaultProviderFactory = keyVaultProviderFactory;
         }
 
-        public Task<string> ConvertAsync(KeyVaultAttribute keyVaultAttribute, CancellationToken cancellationToken)
+        public Task<string> ConvertAsync(KeyVaultSecretAttribute keyVaultAttribute, CancellationToken cancellationToken)
         {
             var provider = _keyVaultProviderFactory.GetKeyVaultProvider(keyVaultAttribute);
-            return provider.GetSecret(cancellationToken);
+            return provider.GetSecret(keyVaultAttribute.SecretName, keyVaultAttribute.SecretVersion, cancellationToken);
         }
     }
 }

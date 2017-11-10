@@ -10,10 +10,10 @@ namespace KeyVaultBinding.Config
         {
             if (keyVaultAttribute.ClientId == null)
             {
-                return new KeyVaultProvider(keyVaultAttribute,
+                return new KeyVaultProvider(keyVaultAttribute.BaseUrl,
                     new KeyVaultClient.AuthenticationCallback(new AzureServiceTokenProvider().KeyVaultTokenCallback));
             }
-            return new KeyVaultProvider(keyVaultAttribute,
+            return new KeyVaultProvider(keyVaultAttribute.BaseUrl,
                 new TokenCache(new ClientCredential(
                     keyVaultAttribute.ClientId,
                     keyVaultAttribute.ClientSecret)).GetToken);

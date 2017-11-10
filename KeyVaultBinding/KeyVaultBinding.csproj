@@ -34,14 +34,19 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Config\EncryptorAsync.cs" />
+    <Compile Include="Config\IEncryptorAsync.cs" />
     <Compile Include="Config\IKeyVaultProvider.cs" />
     <Compile Include="Config\IKeyVaultProviderFactory.cs" />
     <Compile Include="Config\KeyVaultBindingExtension.cs" />
+    <Compile Include="Config\KeyVaultEncryptorAsyncConverter.cs" />
     <Compile Include="Config\KeyVaultProvider.cs" />
     <Compile Include="Config\KeyVaultProviderFactory.cs" />
     <Compile Include="Config\KeyVaultSecretStringAsyncConverter.cs" />
     <Compile Include="Config\TokenCache.cs" />
     <Compile Include="KeyVaultAttribute.cs" />
+    <Compile Include="KeyVaultEncryptorAttribute.cs" />
+    <Compile Include="KeyVaultSecretAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,23 +6,37 @@ namespace KeyVaultBinding.Config
 {
     public class KeyVaultProvider : IKeyVaultProvider
     {
-        private readonly KeyVaultAttribute _keyVaultAttribute;
+        private readonly string _baseUrl;
         private readonly KeyVaultClient _keyVaultClient;
 
-        public KeyVaultProvider(KeyVaultAttribute keyVaultAttribute, KeyVaultClient.AuthenticationCallback authenticationCallback)
+        public KeyVaultProvider(string baseUrl, KeyVaultClient.AuthenticationCallback authenticationCallback)
         {
-            _keyVaultAttribute = keyVaultAttribute;
+            _baseUrl = baseUrl;
             _keyVaultClient = new KeyVaultClient(authenticationCallback);
         }
 
-        public async Task<string> GetSecret(CancellationToken cancellationToken)
+        public async Task<string> GetSecret(string name, string version, CancellationToken cancellationToken)
         {
             var secret = await _keyVaultClient.GetSecretAsync(
-                _keyVaultAttribute.BaseUrl,
-                _keyVaultAttribute.SecretName,
-                _keyVaultAttribute.SecretVersion ?? string.Empty,
+                _baseUrl,
+                name,
+                version ?? string.Empty,
                 cancellationToken);
             return secret.Value;
         }
+
+        public async Task<byte[]> Encrypt(string keyName, string keyVersion, string algorithm,
+            byte[] value, CancellationToken cancellationToken)
+        {
+            var encrypt = await _keyVaultClient.EncryptAsync(_baseUrl, keyName, keyVersion, algorithm, value, cancellationToken);
+            return encrypt.Result;
+        }
+        public async Task<byte[]> Decrypt(string keyName, string keyVersion, string algorithm,
+            byte[] value, CancellationToken cancellationToken)
+        {
+            var decrypt = await _keyVaultClient.DecryptAsync(_baseUrl, keyName, keyVersion, algorithm, value, cancellationToken);
+            return decrypt.Result;
+        }
+
     }
 }
