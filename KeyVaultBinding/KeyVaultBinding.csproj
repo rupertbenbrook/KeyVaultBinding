@@ -35,11 +35,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Config\EncryptorAsync.cs" />
+    <Compile Include="Config\IEncryptor.cs" />
     <Compile Include="Config\IEncryptorAsync.cs" />
     <Compile Include="Config\IKeyVaultProvider.cs" />
     <Compile Include="Config\IKeyVaultProviderFactory.cs" />
     <Compile Include="Config\KeyVaultBindingExtension.cs" />
     <Compile Include="Config\KeyVaultEncryptorAsyncConverter.cs" />
+    <Compile Include="Config\KeyVaultEncryptorConverter.cs" />
     <Compile Include="Config\KeyVaultProvider.cs" />
     <Compile Include="Config\KeyVaultProviderFactory.cs" />
     <Compile Include="Config\KeyVaultSecretStringAsyncConverter.cs" />

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace KeyVaultBinding.Config
 {
-    public class EncryptorAsync : IEncryptorAsync
+    public class EncryptorAsync : IEncryptorAsync, IEncryptor
     {
         private readonly IKeyVaultProvider _keyVaultProvider;
         private readonly KeyVaultEncryptorAttribute _keyVaultEncryptorAttribute;
@@ -14,12 +14,12 @@ namespace KeyVaultBinding.Config
             _keyVaultEncryptorAttribute = keyVaultEncryptorAttribute;
         }
 
-        public Task<byte[]> Encrypt(byte[] plainBytes)
+        public Task<byte[]> EncryptAsync(byte[] plainBytes)
         {
-            return Encrypt(plainBytes, CancellationToken.None);
+            return EncryptAsync(plainBytes, CancellationToken.None);
         }
 
-        public Task<byte[]> Encrypt(byte[] plainBytes, CancellationToken cancellationToken)
+        public Task<byte[]> EncryptAsync(byte[] plainBytes, CancellationToken cancellationToken)
         {
             return _keyVaultProvider.Encrypt(
                 _keyVaultEncryptorAttribute.KeyName,
@@ -29,12 +29,17 @@ namespace KeyVaultBinding.Config
                 cancellationToken);
         }
 
-        public Task<byte[]> Decrypt(byte[] cipherBytes)
+        public byte[] Encrypt(byte[] plainBytes)
         {
-            return Decrypt(cipherBytes, CancellationToken.None);
+            return EncryptAsync(plainBytes).Result;
         }
 
-        public Task<byte[]> Decrypt(byte[] cipherBytes, CancellationToken cancellationToken)
+        public Task<byte[]> DecryptAsync(byte[] cipherBytes)
+        {
+            return DecryptAsync(cipherBytes, CancellationToken.None);
+        }
+
+        public Task<byte[]> DecryptAsync(byte[] cipherBytes, CancellationToken cancellationToken)
         {
             return _keyVaultProvider.Decrypt(
                 _keyVaultEncryptorAttribute.KeyName,
@@ -42,6 +47,11 @@ namespace KeyVaultBinding.Config
                 _keyVaultEncryptorAttribute.Algorithm,
                 cipherBytes,
                 cancellationToken);
+        }
+
+        public byte[] Decrypt(byte[] cipherBytes)
+        {
+            return DecryptAsync(cipherBytes).Result;
         }
     }
 }

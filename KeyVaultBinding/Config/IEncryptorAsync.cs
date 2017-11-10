@@ -5,9 +5,9 @@ namespace KeyVaultBinding.Config
 {
     public interface IEncryptorAsync
     {
-        Task<byte[]> Encrypt(byte[] plainBytes);
-        Task<byte[]> Encrypt(byte[] plainBytes, CancellationToken cancellationToken);
-        Task<byte[]> Decrypt(byte[] cipherBytes);
-        Task<byte[]> Decrypt(byte[] cipherBytes, CancellationToken cancellationToken);
+        Task<byte[]> EncryptAsync(byte[] plainBytes);
+        Task<byte[]> EncryptAsync(byte[] plainBytes, CancellationToken cancellationToken);
+        Task<byte[]> DecryptAsync(byte[] cipherBytes);
+        Task<byte[]> DecryptAsync(byte[] cipherBytes, CancellationToken cancellationToken);
     }
 }
