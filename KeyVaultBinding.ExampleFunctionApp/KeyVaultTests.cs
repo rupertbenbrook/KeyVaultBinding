@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using KeyVaultBinding.Config;
@@ -48,7 +49,8 @@ namespace KeyVaultBinding.ExampleFunctionApp
             [KeyVaultCrypto("AKey", "RS256")] ICryptoOperationsAsync crypto,
             TraceWriter log)
         {
-            var digest = Encoding.UTF8.GetBytes("this is test plaintext");
+            var hasher = new SHA256CryptoServiceProvider();
+            var digest = hasher.ComputeHash(Encoding.UTF8.GetBytes("this is test plaintext"));
             var sig = await crypto.SignAsync(digest);
             var check = await crypto.VerifyAsync(digest, sig);
             return request.CreateResponse(HttpStatusCode.OK, $"{check}");
@@ -60,7 +62,8 @@ namespace KeyVaultBinding.ExampleFunctionApp
             [KeyVaultCrypto("AKey", "RS256")] ICryptoOperations crypto,
             TraceWriter log)
         {
-            var digest = Encoding.UTF8.GetBytes("this is test plaintext");
+            var hasher = new SHA256CryptoServiceProvider();
+            var digest = hasher.ComputeHash(Encoding.UTF8.GetBytes("this is test plaintext"));
             var sig = crypto.Sign(digest);
             var check = crypto.Verify(digest, sig);
             return request.CreateResponse(HttpStatusCode.OK, $"{check}");
