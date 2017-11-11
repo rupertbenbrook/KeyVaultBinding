@@ -6,11 +6,12 @@ namespace KeyVaultBinding
 {
     [AttributeUsage(AttributeTargets.Parameter)]
     [Binding]
-    public class KeyVaultEncryptorAttribute : KeyVaultAttribute
+    public class KeyVaultCryptoAttribute : KeyVaultAttribute
     {
-        public KeyVaultEncryptorAttribute(string keyName)
+        public KeyVaultCryptoAttribute(string keyName, string algorithm)
         {
             KeyName = keyName;
+            Algorithm = algorithm;
         }
 
         [AutoResolve]
@@ -19,7 +20,7 @@ namespace KeyVaultBinding
         [AutoResolve(Default = "")]
         public string KeyVersion { get; set; }
 
-        [AutoResolve(Default = "RSA-OAEP")]
+        [AutoResolve]
         public string Algorithm { get; set; }
     }
 }

@@ -23,22 +23,46 @@ namespace KeyVaultBinding.ExampleFunctionApp
         [FunctionName("EncryptDecryptAsync")]
         public static async Task<HttpResponseMessage> EncryptDecryptAsync(
             [HttpTrigger("GET")] HttpRequestMessage request,
-            [KeyVaultEncryptor("AKey")] IEncryptorAsync encryptorAsync,
+            [KeyVaultCrypto("AKey", "RSA-OAEP")] ICryptoOperationsAsync crypto,
             TraceWriter log)
         {
-            var cipher = await encryptorAsync.EncryptAsync(Encoding.UTF8.GetBytes("this is test plaintext"));
-            var check = Encoding.UTF8.GetString(await encryptorAsync.DecryptAsync(cipher));
+            var cipher = await crypto.EncryptAsync(Encoding.UTF8.GetBytes("this is test plaintext"));
+            var check = Encoding.UTF8.GetString(await crypto.DecryptAsync(cipher));
             return request.CreateResponse(HttpStatusCode.OK, $"{check}");
         }
 
         [FunctionName("EncryptDecrypt")]
         public static HttpResponseMessage EncryptDecrypt(
             [HttpTrigger("GET")] HttpRequestMessage request,
-            [KeyVaultEncryptor("AKey")] IEncryptor encryptor,
+            [KeyVaultCrypto("AKey", "RSA-OAEP")] ICryptoOperations crypto,
             TraceWriter log)
         {
-            var cipher = encryptor.Encrypt(Encoding.UTF8.GetBytes("this is test plaintext"));
-            var check = Encoding.UTF8.GetString(encryptor.Decrypt(cipher));
+            var cipher = crypto.Encrypt(Encoding.UTF8.GetBytes("this is test plaintext"));
+            var check = Encoding.UTF8.GetString(crypto.Decrypt(cipher));
+            return request.CreateResponse(HttpStatusCode.OK, $"{check}");
+        }
+
+        [FunctionName("SignVerifyAsync")]
+        public static async Task<HttpResponseMessage> SignVerifyAsync(
+            [HttpTrigger("GET")] HttpRequestMessage request,
+            [KeyVaultCrypto("AKey", "RS256")] ICryptoOperationsAsync crypto,
+            TraceWriter log)
+        {
+            var digest = Encoding.UTF8.GetBytes("this is test plaintext");
+            var sig = await crypto.SignAsync(digest);
+            var check = await crypto.VerifyAsync(digest, sig);
+            return request.CreateResponse(HttpStatusCode.OK, $"{check}");
+        }
+
+        [FunctionName("SignVerify")]
+        public static HttpResponseMessage SignVerify(
+            [HttpTrigger("GET")] HttpRequestMessage request,
+            [KeyVaultCrypto("AKey", "RS256")] ICryptoOperations crypto,
+            TraceWriter log)
+        {
+            var digest = Encoding.UTF8.GetBytes("this is test plaintext");
+            var sig = crypto.Sign(digest);
+            var check = crypto.Verify(digest, sig);
             return request.CreateResponse(HttpStatusCode.OK, $"{check}");
         }
     }

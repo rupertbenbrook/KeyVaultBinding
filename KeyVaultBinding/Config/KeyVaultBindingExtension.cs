@@ -11,11 +11,11 @@ namespace KeyVaultBinding.Config
             secretBinding
                 .BindToInput(new KeyVaultSecretStringAsyncConverter(factory));
 
-            var encryptorBinding = context.AddBindingRule<KeyVaultEncryptorAttribute>();
+            var encryptorBinding = context.AddBindingRule<KeyVaultCryptoAttribute>();
             encryptorBinding
-                .BindToInput(new KeyVaultEncryptorAsyncConverter(factory));
+                .BindToInput(new KeyVaultCryptoOperationsAsyncConverter(factory));
             encryptorBinding
-                .BindToInput(new KeyVaultEncryptorConverter(factory));
+                .BindToInput(new KeyVaultCryptoOperationsConverter(factory));
         }
     }
 }

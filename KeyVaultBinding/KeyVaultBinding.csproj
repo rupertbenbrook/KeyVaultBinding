@@ -34,20 +34,20 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Config\EncryptorAsync.cs" />
-    <Compile Include="Config\IEncryptor.cs" />
-    <Compile Include="Config\IEncryptorAsync.cs" />
+    <Compile Include="Config\CryptoOperationsAsync.cs" />
+    <Compile Include="Config\ICryptoOperations.cs" />
+    <Compile Include="Config\ICryptoOperationsAsync.cs" />
     <Compile Include="Config\IKeyVaultProvider.cs" />
     <Compile Include="Config\IKeyVaultProviderFactory.cs" />
     <Compile Include="Config\KeyVaultBindingExtension.cs" />
-    <Compile Include="Config\KeyVaultEncryptorAsyncConverter.cs" />
-    <Compile Include="Config\KeyVaultEncryptorConverter.cs" />
+    <Compile Include="Config\KeyVaultCryptoOperationsAsyncConverter.cs" />
+    <Compile Include="Config\KeyVaultCryptoOperationsConverter.cs" />
     <Compile Include="Config\KeyVaultProvider.cs" />
     <Compile Include="Config\KeyVaultProviderFactory.cs" />
     <Compile Include="Config\KeyVaultSecretStringAsyncConverter.cs" />
     <Compile Include="Config\AccessTokenCache.cs" />
     <Compile Include="KeyVaultAttribute.cs" />
-    <Compile Include="KeyVaultEncryptorAttribute.cs" />
+    <Compile Include="KeyVaultCryptoAttribute.cs" />
     <Compile Include="KeyVaultSecretAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

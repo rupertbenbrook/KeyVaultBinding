@@ -15,12 +15,12 @@ namespace KeyVaultBinding.Config
             _keyVaultClient = new KeyVaultClient(authenticationCallback);
         }
 
-        public async Task<string> GetSecret(string name, string version, CancellationToken cancellationToken)
+        public async Task<string> GetSecret(string secretName, string secretVersion, CancellationToken cancellationToken)
         {
             var secret = await _keyVaultClient.GetSecretAsync(
                 _baseUrl,
-                name,
-                version ?? string.Empty,
+                secretName,
+                secretVersion ?? string.Empty,
                 cancellationToken);
             return secret.Value;
         }
@@ -38,5 +38,17 @@ namespace KeyVaultBinding.Config
             return decrypt.Result;
         }
 
+        public async Task<byte[]> Sign(string keyName, string keyVersion, string algorithm, byte[] digest, CancellationToken cancellationToken)
+        {
+            var sign = await _keyVaultClient.SignAsync(_baseUrl, keyName, keyVersion, algorithm, digest, cancellationToken);
+            return sign.Result;
+        }
+
+        public async Task<bool> Verify(string keyName, string keyVersion, string algorithm, byte[] digest, byte[] signature,
+            CancellationToken cancellationToken)
+        {
+            var sign = await _keyVaultClient.VerifyAsync(_baseUrl, keyName, keyVersion, algorithm, digest, signature, cancellationToken);
+            return sign.Value != null && sign.Value.Value;
+        }
     }
 }
